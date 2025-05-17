@@ -1,5 +1,6 @@
 //Whoever reads this is smelly
 //C+ = smelly
+//erm its c++ akshully
 
 #include <iostream>
 #include <cpr/cpr.h>
@@ -7,8 +8,9 @@
 //Function Decloration
 void controllerInputs(double & xAxis, double& yAxis, double& rightTrigger, bool& handbrake);
 
-int main(){
 
+//Main function to run everything
+int main(){
 
 
 

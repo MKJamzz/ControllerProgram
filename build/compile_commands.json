@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/VSCode Files/RC Car/ControllerProgram/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DCURL_STATICLIB @CMakeFiles/RCCarController.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RCCarController.dir\\main.cpp.obj -c \"C:\\VSCode Files\\RC Car\\ControllerProgram\\main.cpp\"",
+  "file": "C:/VSCode Files/RC Car/ControllerProgram/main.cpp",
+  "output": "CMakeFiles/RCCarController.dir/main.cpp.obj"
+}
+]
