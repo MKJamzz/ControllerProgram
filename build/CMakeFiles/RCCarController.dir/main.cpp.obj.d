@@ -1,12 +1,14 @@
 CMakeFiles/RCCarController.dir/main.cpp.obj: \
  C:\VSCode\ Files\RC\ Car\ControllerProgram\main.cpp \
- C:/msys64/ucrt64/include/c++/13.2.0/iostream \
+ C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/cpr.h \
+ C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/api.h \
+ C:/msys64/ucrt64/include/c++/13.2.0/fstream \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/msys64/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32/bits/os_defines.h \
  C:/msys64/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
  C:/msys64/ucrt64/include/c++/13.2.0/pstl/pstl_config.h \
- C:/msys64/ucrt64/include/c++/13.2.0/ostream \
+ C:/msys64/ucrt64/include/c++/13.2.0/istream \
  C:/msys64/ucrt64/include/c++/13.2.0/ios \
  C:/msys64/ucrt64/include/c++/13.2.0/iosfwd \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stringfwd.h \
@@ -131,12 +133,9 @@ CMakeFiles/RCCarController.dir/main.cpp.obj: \
  C:/msys64/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32/bits/ctype_inline.h \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/locale_facets.tcc \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/basic_ios.tcc \
+ C:/msys64/ucrt64/include/c++/13.2.0/ostream \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/ostream.tcc \
- C:/msys64/ucrt64/include/c++/13.2.0/istream \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/istream.tcc \
- C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/cpr.h \
- C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/api.h \
- C:/msys64/ucrt64/include/c++/13.2.0/fstream \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/codecvt.h \
  C:/msys64/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32/bits/basic_file.h \
  C:/msys64/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32/bits/c++io.h \
@@ -506,4 +505,5 @@ CMakeFiles/RCCarController.dir/main.cpp.obj: \
  C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/cprver.h \
  C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/interceptor.h \
  C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/ssl_ctx.h \
- C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/status_codes.h
+ C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/include/cpr/status_codes.h \
+ C:/msys64/ucrt64/include/c++/13.2.0/iostream
