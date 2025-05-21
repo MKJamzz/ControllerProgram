@@ -1,14 +1,17 @@
 //Whoever reads this is smelly
 //C+ = smelly
 //erm its c++ akshully
+
+//Run this line in terminal to test the build
+// ./build/RCCarController.exe
+
 #include <cpr/cpr.h>
 #include <SDL.h>
 #include <iostream>
 using namespace std;
 
 //Function Decloration
-void controllerInputs(double & xAxis, double& yAxis, double& rightTrigger, bool& handbrake);
-
+void controllerInputs(SDL_GameController* contInp, double & xAxis,double& rightTrigger);
 
 //Main function to run everything
 int main(){
@@ -37,6 +40,10 @@ int main(){
 
     SDL_Event e;
     bool running = true;
+
+    double leftX = 0;
+    double rightTrigger = 0;
+
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
@@ -44,9 +51,7 @@ int main(){
         }
 
         // Get joystick positions
-        int leftX = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTX);   //For steering
-        int rightTrigger = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);  //Fpr throttle
-
+        controllerInputs(bunga, leftX, rightTrigger);
         std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << "\r";
 
         SDL_Delay(50);
@@ -54,16 +59,17 @@ int main(){
 
     SDL_GameControllerClose(bunga);
     SDL_Quit();
+
     return 0;
 }   
 
 //This functions returns all of the important information from the controller
-void controllerInputs(double& xAxis, double& yAxis, double& rightTrigger, bool& handbrake){
-    
+void controllerInputs(SDL_GameController* contInp, double& xAxis, double& rightTrigger){
+        Sint16 rawLeftX = SDL_GameControllerGetAxis(contInp, SDL_CONTROLLER_AXIS_LEFTX);
+        xAxis = rawLeftX / 32768;
 
-
-
-
+        Sint16 rawThrottle = SDL_GameControllerGetAxis(contInp, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+        rightTrigger = rawThrottle / 32768;
 
     return;
 }
