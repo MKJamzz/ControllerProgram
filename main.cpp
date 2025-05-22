@@ -5,12 +5,14 @@
 //Run this line in terminal to test the build
 // ./build/RCCarController.exe
 
+#define SDL_MAIN_HANDLED    //BRO THIS WAS THE ONLY LINE THAT I NEEDED
 #include <cpr/cpr.h>
 #include <SDL.h>
 #include <iostream>
 using namespace std;
 
 //Function Decloration
+int main();
 void controllerInputs(SDL_GameController* contInp, double & xAxis,double& rightTrigger);
 
 //Main function to run everything
@@ -51,8 +53,16 @@ int main(){
         }
 
         // Get joystick positions
-        controllerInputs(bunga, leftX, rightTrigger);
+        //controllerInputs(bunga, leftX, rightTrigger);
+
+        Sint16 rawLeftX = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTX);
+        leftX = rawLeftX;
+
+        Sint16 rawThrottle = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+        rightTrigger = rawThrottle;
+        
         std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << "\r";
+        
 
         SDL_Delay(50);
     }
