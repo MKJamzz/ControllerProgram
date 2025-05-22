@@ -13,8 +13,6 @@ using namespace std;
 
 //Function Decloration
 int main();
-void controllerInputs(SDL_GameController* contInp, double & xAxis,double& rightTrigger);
-
 //Main function to run everything
 int main(){
 
@@ -52,14 +50,24 @@ int main(){
                 running = false;
         }
 
+        //std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << "\r";
+        std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << endl;
         // Get joystick positions
-        //controllerInputs(bunga, leftX, rightTrigger);
 
         Sint16 rawLeftX = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTX);
-        leftX = rawLeftX;
+        leftX = rawLeftX /32767.0;
+
+        //Implements the deadzones
+        if (leftX <= 0.012 && leftX >= -0.012){
+            leftX = 0.000000;
+        }
+        if(leftX<-1){    //Here so it turning left doesn't turn faster than it turning right
+            leftX = -1;
+        }
+
 
         Sint16 rawThrottle = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
-        rightTrigger = rawThrottle;
+        rightTrigger = rawThrottle / 32767.0;
         
         std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << "\r";
         
@@ -72,14 +80,3 @@ int main(){
 
     return 0;
 }   
-
-//This functions returns all of the important information from the controller
-void controllerInputs(SDL_GameController* contInp, double& xAxis, double& rightTrigger){
-        Sint16 rawLeftX = SDL_GameControllerGetAxis(contInp, SDL_CONTROLLER_AXIS_LEFTX);
-        xAxis = rawLeftX / 32768;
-
-        Sint16 rawThrottle = SDL_GameControllerGetAxis(contInp, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
-        rightTrigger = rawThrottle / 32768;
-
-    return;
-}
