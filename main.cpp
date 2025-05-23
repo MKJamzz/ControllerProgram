@@ -77,11 +77,12 @@ int main(){
 
     //booleans to check if camera and vr are connected and turned on (still have to setup) 
     //if both are true, starts code to start streaming camera feed to VR
-    if(cameraIsConnected && vrIsConnected){
-        startCamera();
-        startVR();
-        streamCameraToVR();
-    }
+    // if(cameraIsConnected && vrIsConnected){
+    //     startCamera();
+    //     startVR();
+    //     streamCameraToVR();
+    // }
+    //          I JUST COMMENTED IT OUT FOR NOW BECAUSE IT WASNT COMPILING 
         
 
     SDL_GameControllerClose(bunga);
