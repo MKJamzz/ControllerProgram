@@ -235,6 +235,11 @@
 				"role" : "libraries"
 			},
 			{
+				"backtrace" : 3,
+				"fragment" : "-lgpiod",
+				"role" : "libraries"
+			},
+			{
 				"backtrace" : 13,
 				"fragment" : "C:\\Users\\pugpo\\dev\\vcpkg\\installed\\x64-mingw-static\\debug\\lib\\libcurl-d.a",
 				"role" : "libraries"
