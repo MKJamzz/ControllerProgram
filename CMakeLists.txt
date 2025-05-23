@@ -21,6 +21,13 @@
 # add_executable(RCCarController main.cpp)
 
 # target_link_libraries(RCCarController PRIVATE cpr::cpr SDL2::SDL2 )
+#
+
+
+
+#
+#  CMAKE FILES FOR THE PI!!!!!!!!!!!!!!
+#
 
 cmake_minimum_required(VERSION 3.15)
 project(RCCarController)
@@ -36,7 +43,7 @@ set(CURL_DIR "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/curl")
 set(SDL2_DIR "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2")
 
 # Set the linker flags to force console subsystem
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,console")
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,console")
 
 # find packages
 find_package(OpenSSL REQUIRED)

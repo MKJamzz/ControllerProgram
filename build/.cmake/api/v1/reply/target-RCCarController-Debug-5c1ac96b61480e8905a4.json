@@ -42,7 +42,7 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 46,
+				"line" : 53,
 				"parent" : 0
 			},
 			{
@@ -54,13 +54,13 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 48,
+				"line" : 55,
 				"parent" : 0
 			},
 			{
 				"command" : 6,
 				"file" : 1,
-				"line" : 43,
+				"line" : 50,
 				"parent" : 0
 			},
 			{
@@ -130,7 +130,7 @@
 			{
 				"command" : 6,
 				"file" : 1,
-				"line" : 44,
+				"line" : 51,
 				"parent" : 0
 			},
 			{
@@ -212,10 +212,6 @@
 		[
 			{
 				"fragment" : "-g",
-				"role" : "flags"
-			},
-			{
-				"fragment" : "-Wl,-subsystem,console",
 				"role" : "flags"
 			},
 			{
