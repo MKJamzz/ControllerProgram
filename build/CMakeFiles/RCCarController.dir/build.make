@@ -97,6 +97,8 @@ RCCarController.exe: CMakeFiles/RCCarController.dir/main.cpp.obj
 RCCarController.exe: CMakeFiles/RCCarController.dir/build.make
 RCCarController.exe: C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/debug/lib/libcpr.a
 RCCarController.exe: C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/debug/lib/libSDL2d.a
+RCCarController.exe: C:/msys64/ucrt64/lib/libssl.dll.a
+RCCarController.exe: C:/msys64/ucrt64/lib/libcrypto.dll.a
 RCCarController.exe: C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/debug/lib/libcurl-d.a
 RCCarController.exe: C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/debug/lib/libzlibd.a
 RCCarController.exe: CMakeFiles/RCCarController.dir/linkLibs.rsp

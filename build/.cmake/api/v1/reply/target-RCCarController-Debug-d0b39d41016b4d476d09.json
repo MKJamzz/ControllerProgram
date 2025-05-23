@@ -42,7 +42,7 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 45,
+				"line" : 46,
 				"parent" : 0
 			},
 			{
@@ -54,13 +54,13 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 47,
+				"line" : 48,
 				"parent" : 0
 			},
 			{
 				"command" : 6,
 				"file" : 1,
-				"line" : 42,
+				"line" : 43,
 				"parent" : 0
 			},
 			{
@@ -130,7 +130,7 @@
 			{
 				"command" : 6,
 				"file" : 1,
-				"line" : 43,
+				"line" : 44,
 				"parent" : 0
 			},
 			{
@@ -226,6 +226,16 @@
 			{
 				"backtrace" : 3,
 				"fragment" : "C:\\Users\\pugpo\\dev\\vcpkg\\installed\\x64-mingw-static\\debug\\lib\\libSDL2d.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "C:\\msys64\\ucrt64\\lib\\libssl.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "C:\\msys64\\ucrt64\\lib\\libcrypto.dll.a",
 				"role" : "libraries"
 			},
 			{

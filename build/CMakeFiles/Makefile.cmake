@@ -50,6 +50,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/FeatureSummary.cmake"
+  "C:/msys64/ucrt64/share/cmake/Modules/FindOpenSSL.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/FindPackageMessage.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/FindZLIB.cmake"
