@@ -14,7 +14,9 @@ using namespace std;
 
 //Function Decloration
 int main();
-void manageOutputs(int xAxis, int yAxis, int throttle);
+void manageOutputs(int xAxis, int yAxis, int throttle,
+                   gpiod_line* up, gpiod_line* down, gpiod_line* left,
+                   gpiod_line* right, gpiod_line* throt1, gpiod_line* throt2);
 //Main function to run everything
 int main(){
 
@@ -96,7 +98,7 @@ int main(){
         
         std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << "\r";
         
-        manageOutputs(leftX, leftY, rightTrigger);
+        manageOutputs(leftX, leftY, rightTrigger, up, down, left, right, throt1, throt2);
 
         SDL_Delay(50);
     }
@@ -114,11 +116,22 @@ int main(){
     SDL_GameControllerClose(bunga);
     SDL_Quit();
 
+    //GPIO Cleanup
+    gpiod_line_release(up);
+    gpiod_line_release(down);
+    gpiod_line_release(left);
+    gpiod_line_release(right);
+    gpiod_line_release(throt1);
+    gpiod_line_release(throt2);
+    gpiod_chip_close(chip);
+
     return 0;
 }   
 
 
-void manageOutputs(int xAxis, int yAxis, int throttle){
+void manageOutputs(int xAxis, int yAxis, int throttle,
+                   gpiod_line* up, gpiod_line* down, gpiod_line* left,
+                   gpiod_line* right, gpiod_line* throt1, gpiod_line* throt2) {
     if(xAxis > 0.75) gpiod_line_set_value(right, 1);
     else gpiod_line_set_value(right, 0);
 
