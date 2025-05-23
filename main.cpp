@@ -3,16 +3,18 @@
 //erm its c++ akshully
 
 //Run this line in terminal to test the build
-// ./build/RCCarController.exe
+// ./build/ControllerProgram.exe
 
 #define SDL_MAIN_HANDLED    //BRO THIS WAS THE ONLY LINE THAT I NEEDED
 #include <cpr/cpr.h>
 #include <SDL.h>
+#include <gpiod.h>
 #include <iostream>
 using namespace std;
 
 //Function Decloration
 int main();
+void manageOutputs(int xAxis, int yAxis, int throttle);
 //Main function to run everything
 int main(){
 
@@ -41,8 +43,28 @@ int main(){
     SDL_Event e;
     bool running = true;
 
+    //Variable initialization
     double leftX = 0;
+    double leftY = 0;
     double rightTrigger = 0;
+
+    //GPIO Initialization -- Make better later
+    gpiod_chip* chip = gpiod_chip_open_by_name("gpiochip0");
+    gpiod_line* up = gpiod_chip_get_line(chip,17);
+    gpiod_line* down = gpiod_chip_get_line(chip,27);
+    gpiod_line* left = gpiod_chip_get_line(chip,22);
+    gpiod_line* right = gpiod_chip_get_line(chip,23);
+    gpiod_line* throt1 = gpiod_chip_get_line(chip,5);
+    gpiod_line* throt2 = gpiod_chip_get_line(chip,6);
+    gpiod_line_request_output(up, "controller", 0);
+    gpiod_line_request_output(down, "controller", 0);
+    gpiod_line_request_output(left, "controller", 0);
+    gpiod_line_request_output(right, "controller", 0);
+    gpiod_line_request_output(throt1, "controller", 0);
+    gpiod_line_request_output(throt2, "controller", 0);
+
+
+
 
     while (running) {
         while (SDL_PollEvent(&e)) {
@@ -56,6 +78,9 @@ int main(){
 
         Sint16 rawLeftX = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTX);
         leftX = rawLeftX /32767.0;
+
+        Sint16 rawLeftY = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTY);
+        leftY = rawLeftY /32767.0;
 
         //Implements the deadzones
         if (leftX <= 0.012 && leftX >= -0.012){
@@ -71,6 +96,7 @@ int main(){
         
         std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << "\r";
         
+        manageOutputs(leftX, leftY, rightTrigger);
 
         SDL_Delay(50);
     }
@@ -90,3 +116,26 @@ int main(){
 
     return 0;
 }   
+
+
+void manageOutputs(int xAxis, int yAxis, int throttle){
+    if(xAxis > 0.75) gpiod_line_set_value(right, 1);
+    else gpiod_line_set_value(right, 0);
+
+    if(xAxis < -0.75) gpiod_line_set_value(left, 1);
+    else gpiod_line_set_value(left, 0);
+
+    if(yAxis > 0.75) gpiod_line_set_value(up, 1);
+    else gpiod_line_set_value(up, 0);
+
+    if(yAxis < -0.75) gpiod_line_set_value(down, 1);
+    else gpiod_line_set_value(down, 0);
+
+    if(throttle > 0.75) gpiod_line_set_value(throt2, 1);
+    else gpiod_line_set_value(throt2, 0);
+
+    if(throttle < 0.25) gpiod_line_set_value(throt1, 1);
+    else gpiod_line_set_value(throt1, 0);
+
+    return;
+}
