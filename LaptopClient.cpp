@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <iostream>
 #include <algorithm>
+#include <winsock2.h>
+#include <ws2tcpip.h>    
 using namespace std;
 
 
@@ -42,6 +44,9 @@ int main(){
 
     connect(sock, (sockaddr*)&server_addr, sizeof(server_addr));
 
+    int flag = 1;
+    setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(int));
+
     SDL_Event e;
     bool running = true;
 
@@ -73,7 +78,7 @@ int main(){
 
         cout << "Trigger Value: " << pwmTrig << " || Steering Value: " << pwmLeftX << endl;
 
-        usleep(5000);
+        usleep(50000);
     }
 
     close(sock);

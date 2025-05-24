@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 # ---- Client (Laptop) ----
 # SDL2 only needed on laptop
-# find_package(SDL2 REQUIRED)
 
+# find_package(SDL2 REQUIRED)
 # add_executable(LaptopClient LaptopClient.cpp)
 # target_link_libraries(LaptopClient PRIVATE SDL2::SDL2 ws2_32)
 
