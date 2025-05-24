@@ -9,7 +9,7 @@ using namespace std;
 //Function decloration
 
 int main(){
-    gpioInitialize();
+    gpioInitialise();
 
     //PWM PINS
     const int throtPin = 18;
@@ -19,7 +19,7 @@ int main(){
     gpioSetPWMfrequency(steerPin, 1000);
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
-    sockaddr_in address(AF_INET, htons(8000), INADDR_ANY);
+    sockaddr_in address{AF_INET, htons(8000), INADDR_ANY};
 
     bind(server_fd, (sockaddr*)&address, sizeof(address));
     listen(server_fd, 1);
