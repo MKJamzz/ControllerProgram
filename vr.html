@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Stream</title>
+
+    <style> 
+    body{
+        width: 100vw;
+        height:100vh;
+        margin:0;
+        background-color:black;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    .camera_view img{
+        width: 50vw;
+        height: 100vh;
+        object-fit:cover;
+    }
+
+    </style> <!--can add more css formatting here if the video isn't rendered properly e.g fullscreen, size-->
+</head>
+<body>
+    <div class="camera_view">
+        <img src="http://192.168.5.72:8081">
+        <img src="http://192.168.5.72:8081"><!--Two video feeds for each eye in vr-->
+    </div>
+    
+</body>
+</html>
