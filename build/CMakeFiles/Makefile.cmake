@@ -7,27 +7,6 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/cpr/cprConfig.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/cpr/cprConfigVersion.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/cpr/cprTargets-debug.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/cpr/cprTargets-release.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/cpr/cprTargets.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/curl/CURLConfig.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/curl/CURLConfigVersion.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/curl/CURLTargets-debug.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/curl/CURLTargets-release.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/curl/CURLTargets.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/curl/vcpkg-cmake-wrapper.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2Config.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2ConfigVersion.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2mainTargets-debug.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2mainTargets-release.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2mainTargets.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2staticTargets-debug.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2staticTargets-release.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2staticTargets.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/sdlfind.cmake"
-  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/zlib/vcpkg-cmake-wrapper.cmake"
   "C:/Users/pugpo/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
   "C:/VSCode Files/RC Car/ControllerProgram/CMakeLists.txt"
   "CMakeFiles/4.0.2/CMakeCCompiler.cmake"
@@ -38,7 +17,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeCXXInformation.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeDependentOption.cmake"
-  "C:/msys64/ucrt64/share/cmake/Modules/CMakeFindDependencyMacro.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeGenericSystem.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeInitializeConfigs.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeLanguageInformation.cmake"
@@ -49,11 +27,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-C.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU.cmake"
-  "C:/msys64/ucrt64/share/cmake/Modules/FeatureSummary.cmake"
-  "C:/msys64/ucrt64/share/cmake/Modules/FindOpenSSL.cmake"
-  "C:/msys64/ucrt64/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
-  "C:/msys64/ucrt64/share/cmake/Modules/FindPackageMessage.cmake"
-  "C:/msys64/ucrt64/share/cmake/Modules/FindZLIB.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake"
@@ -73,7 +46,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-windres.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Platform/Windows.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Platform/WindowsPaths.cmake"
-  "C:/msys64/ucrt64/share/cmake/Modules/SelectLibraryConfigurations.cmake"
   )
 
 # The corresponding makefile is:
@@ -89,5 +61,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/RCCarController.dir/DependInfo.cmake"
+  "CMakeFiles/CarServer.dir/DependInfo.cmake"
   )

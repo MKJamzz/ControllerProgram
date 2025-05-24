@@ -2,16 +2,15 @@
 // server that is being run by the Raspberry PI in order to achieve the 
 // desired GPIO outputs 
 
+#define SDL_MAIN_HANDLED   
 #include <SDL.h>
 #include <cpr/cpr.h>
-#include <arpa/inet.h>
 #include <unistd.h>
+#include <cstdint>
 #include <iostream>
+#include <algorithm>
+using namespace std;
 
-//Function decloration
-void manageOutputs(int xAxis, int yAxis, int throttle,
-                   gpiod_line* up, gpiod_line* down, gpiod_line* left,
-                   gpiod_line* right, gpiod_line* throt1, gpiod_line* throt2);
 
 int main(){
 
@@ -37,14 +36,11 @@ int main(){
         }
     }
 
-    int sock = socket(AF_NET, SOCK_STREAM, 0);
-    sockaddr_in server_adder{AF_INET, htons(8000)};
-    inet_pton(AF_NET, "192.168.5.72", &server_addr.sin_addr);
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    sockaddr_in server_addr{AF_INET, htons(8000)};
+    inet_pton(AF_INET, "192.168.5.72", &server_addr.sin_addr);
 
-    connet(sock, (sockaddr*)&server_addr, sizeof(server_addr));
-
-
-
+    connect(sock, (sockaddr*)&server_addr, sizeof(server_addr));
 
     SDL_Event e;
     bool running = true;
@@ -54,49 +50,34 @@ int main(){
     double leftY = 0;
     double rightTrigger = 0;
 
-    //GPIO Initialization -- Make better later
-    gpiod_chip* chip = gpiod_chip_open_by_name("gpiochip0");
-    gpiod_line* left = gpiod_chip_get_line(chip,22);
-    gpiod_line* right = gpiod_chip_get_line(chip,23);
-    gpiod_line* throt1 = gpiod_chip_get_line(chip,5);
-    gpiod_line_request_output(left, "controller", 0);
-    gpiod_line_request_output(right, "controller", 0);
-    gpiod_line_request_output(throt1, "controller", 0);
+    while(running){
+        SDL_GameControllerUpdate();
+        
+        Sint16 rawLeftX = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTX);
+        leftX = rawLeftX /32767.0;
 
+        //Implements the deadzones
+        if (leftX <= 0.013 && leftX >= -0.013) leftX = 0.0;
+        leftX = std::clamp(leftX,-1.0,1.0);       
 
-    //GPIO Cleanup
-    gpiod_line_release(left);
-    gpiod_line_release(right);
-    gpiod_line_release(throt1);
-    gpiod_chip_close(chip);
+        Sint16 rawThrottle = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+        rightTrigger = rawThrottle / 32767.0;
+        rightTrigger = std::clamp(rightTrigger, 0.0, 1.0);
 
+        uint8_t pwmLeftX = static_cast <uint8_t>((leftX + 1)/2 * 255); // Map -1 -> 1, into 0 -> 255
+        uint8_t pwmTrig = static_cast <uint8_t>(rightTrigger * 255);
+
+        //Combines both signals and sends them
+        uint8_t buffer[2] = {pwmLeftX, pwmTrig};
+        send(sock, reinterpret_cast<const char*>(buffer), 2, 0);
+
+        cout << "Trigger Value: " << pwmTrig << " || Steering Value: " << pwmLeftX << endl;
+
+        usleep(5000);
+    }
+
+    close(sock);
     SDL_GameControllerClose(bunga);
     SDL_Quit();
     return 0;
-}
-
-
-//Helper function that takes all of the variable values and changes them as requested
-void manageOutputs(int xAxis, int yAxis, int throttle,
-                   gpiod_line* up, gpiod_line* down, gpiod_line* left,
-                   gpiod_line* right, gpiod_line* throt1, gpiod_line* throt2) {
-    if(xAxis > 0.75) gpiod_line_set_value(right, 1);
-    else gpiod_line_set_value(right, 0);
-
-    if(xAxis < -0.75) gpiod_line_set_value(left, 1);
-    else gpiod_line_set_value(left, 0);
-
-    if(yAxis > 0.75) gpiod_line_set_value(up, 1);
-    else gpiod_line_set_value(up, 0);
-
-    if(yAxis < -0.75) gpiod_line_set_value(down, 1);
-    else gpiod_line_set_value(down, 0);
-
-    if(throttle > 0.75) gpiod_line_set_value(throt2, 1);
-    else gpiod_line_set_value(throt2, 0);
-
-    if(throttle < 0.25) gpiod_line_set_value(throt1, 1);
-    else gpiod_line_set_value(throt1, 0);
-
-    return;
 }

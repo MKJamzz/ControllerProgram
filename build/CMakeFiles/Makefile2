@@ -62,11 +62,11 @@ CMAKE_BINARY_DIR = "C:\VSCode Files\RC Car\ControllerProgram\build"
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/RCCarController.dir/all
+all: CMakeFiles/CarServer.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/RCCarController.dir/codegen
+codegen: CMakeFiles/CarServer.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -74,40 +74,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/RCCarController.dir/clean
+clean: CMakeFiles/CarServer.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/RCCarController.dir
+# Target rules for target CMakeFiles/CarServer.dir
 
 # All Build rule for target.
-CMakeFiles/RCCarController.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RCCarController.dir\build.make CMakeFiles/RCCarController.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RCCarController.dir\build.make CMakeFiles/RCCarController.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="C:\VSCode Files\RC Car\ControllerProgram\build\CMakeFiles" --progress-num=1,2 "Built target RCCarController"
-.PHONY : CMakeFiles/RCCarController.dir/all
+CMakeFiles/CarServer.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="C:\VSCode Files\RC Car\ControllerProgram\build\CMakeFiles" --progress-num=1,2 "Built target CarServer"
+.PHONY : CMakeFiles/CarServer.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/RCCarController.dir/rule: cmake_check_build_system
+CMakeFiles/CarServer.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "C:\VSCode Files\RC Car\ControllerProgram\build\CMakeFiles" 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/RCCarController.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/CarServer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "C:\VSCode Files\RC Car\ControllerProgram\build\CMakeFiles" 0
-.PHONY : CMakeFiles/RCCarController.dir/rule
+.PHONY : CMakeFiles/CarServer.dir/rule
 
 # Convenience name for target.
-RCCarController: CMakeFiles/RCCarController.dir/rule
-.PHONY : RCCarController
+CarServer: CMakeFiles/CarServer.dir/rule
+.PHONY : CarServer
 
 # codegen rule for target.
-CMakeFiles/RCCarController.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RCCarController.dir\build.make CMakeFiles/RCCarController.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="C:\VSCode Files\RC Car\ControllerProgram\build\CMakeFiles" --progress-num=1,2 "Finished codegen for target RCCarController"
-.PHONY : CMakeFiles/RCCarController.dir/codegen
+CMakeFiles/CarServer.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="C:\VSCode Files\RC Car\ControllerProgram\build\CMakeFiles" --progress-num=1,2 "Finished codegen for target CarServer"
+.PHONY : CMakeFiles/CarServer.dir/codegen
 
 # clean rule for target.
-CMakeFiles/RCCarController.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RCCarController.dir\build.make CMakeFiles/RCCarController.dir/clean
-.PHONY : CMakeFiles/RCCarController.dir/clean
+CMakeFiles/CarServer.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/clean
+.PHONY : CMakeFiles/CarServer.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

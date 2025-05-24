@@ -1,0 +1,1 @@
+ "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/debug/lib/libSDL2d.a" -lws2_32 -lm -lkernel32 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -luuid -ladvapi32 -lsetupapi -lshell32 -ldinput8 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

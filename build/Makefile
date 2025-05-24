@@ -116,41 +116,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named RCCarController
+# Target rules for targets named CarServer
 
 # Build rule for target.
-RCCarController: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 RCCarController
-.PHONY : RCCarController
+CarServer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CarServer
+.PHONY : CarServer
 
 # fast build rule for target.
-RCCarController/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RCCarController.dir\build.make CMakeFiles/RCCarController.dir/build
-.PHONY : RCCarController/fast
+CarServer/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/build
+.PHONY : CarServer/fast
 
-main.obj: main.cpp.obj
-.PHONY : main.obj
+CarServer.obj: CarServer.cpp.obj
+.PHONY : CarServer.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RCCarController.dir\build.make CMakeFiles/RCCarController.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+CarServer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/CarServer.cpp.obj
+.PHONY : CarServer.cpp.obj
 
-main.i: main.cpp.i
-.PHONY : main.i
+CarServer.i: CarServer.cpp.i
+.PHONY : CarServer.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RCCarController.dir\build.make CMakeFiles/RCCarController.dir/main.cpp.i
-.PHONY : main.cpp.i
+CarServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/CarServer.cpp.i
+.PHONY : CarServer.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+CarServer.s: CarServer.cpp.s
+.PHONY : CarServer.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\RCCarController.dir\build.make CMakeFiles/RCCarController.dir/main.cpp.s
-.PHONY : main.cpp.s
+CarServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/CarServer.cpp.s
+.PHONY : CarServer.cpp.s
 
 # Help Target
 help:
@@ -160,10 +160,10 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... RCCarController
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... CarServer
+	@echo ... CarServer.obj
+	@echo ... CarServer.i
+	@echo ... CarServer.s
 .PHONY : help
 
 
