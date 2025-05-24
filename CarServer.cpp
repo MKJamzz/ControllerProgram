@@ -30,7 +30,7 @@ int main(){
 
     uint8_t buffer[2];
 
-    while(read(client_fd, buffer, 2) >= 2){
+    while(read(client_fd, buffer, 2) == 2){
         gpioPWM(steerPin, buffer[0]);
         gpioPWM(throtPin, buffer[1]);
     }
