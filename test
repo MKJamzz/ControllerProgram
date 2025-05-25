@@ -10,7 +10,12 @@
 #include <SDL.h>
 #include <gpiod.h>
 #include <iostream>
+#include <csignal>  // For signal handling
+
 using namespace std;
+
+// Global flag to control the main loop
+bool running = true;
 
 // Function Declarations
 int main();
@@ -19,19 +24,28 @@ void manageOutputs(double xAxis, double yAxis, double throttle,
                    gpiod_line* right, gpiod_line* throt1, gpiod_line* throt2);
 gpiod_line* request_output_line(gpiod_chip* chip, int line_num, const char* label);
 void release_line(gpiod_line* line);
+void handleSignal(int signal);
+
+// Signal handler for Ctrl+C
+void handleSignal(int signal) {
+    if (signal == SIGINT) {
+        std::cout << "\n[INFO] Ctrl+C detected — exiting...\n";
+        running = false;
+    }
+}
 
 // Main function to run everything
 int main() {
+    signal(SIGINT, handleSignal);  // Enable Ctrl+C handling
+
     // Checks if the gamecontroller is connected to the program, returns 1 if none are found
     if (SDL_Init(SDL_INIT_GAMECONTROLLER) < 0) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
         return 1;
     }
 
-    // Creates the variable for the gamecontroller
     SDL_GameController* bunga = nullptr;
 
-    // Outputs the name of the controller
     if (SDL_IsGameController(0)) {
         bunga = SDL_GameControllerOpen(0);
         if (bunga) {
@@ -44,7 +58,6 @@ int main() {
     }
 
     SDL_Event e;
-    bool running = true;
 
     // Variable initialization
     double leftX = 0;
@@ -80,6 +93,12 @@ int main() {
                 running = false;
         }
 
+        // Optional: Exit on PS5 "Circle" button press
+        if (SDL_GameControllerGetButton(bunga, SDL_CONTROLLER_BUTTON_B)) {
+            std::cout << "\n[INFO] Circle button pressed — exiting...\n";
+            running = false;
+        }
+
         // Get joystick positions
         Sint16 rawLeftX = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTX);
         leftX = rawLeftX / 32767.0;
@@ -102,7 +121,7 @@ int main() {
         SDL_Delay(50);
     }
 
-    // GPIO Cleanup
+    // Cleanup
     release_line(up);
     release_line(down);
     release_line(left);
@@ -111,7 +130,6 @@ int main() {
     release_line(throt2);
     gpiod_chip_close(chip);
 
-    // SDL Cleanup
     SDL_GameControllerClose(bunga);
     SDL_Quit();
 
@@ -148,4 +166,3 @@ gpiod_line* request_output_line(gpiod_chip* chip, int line_num, const char* labe
 void release_line(gpiod_line* line) {
     if (line) gpiod_line_release(line);
 }
-
