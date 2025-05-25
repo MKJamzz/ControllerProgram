@@ -15,6 +15,11 @@ using namespace std;
 
 
 int main(){
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "WSAStartup failed\n";
+        return 1;
+    }
 
     //Connecting the gametroller on start up
     if (SDL_Init(SDL_INIT_GAMECONTROLLER) < 0) {
@@ -40,9 +45,14 @@ int main(){
 
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in server_addr{AF_INET, htons(8000)};
-    inet_pton(AF_INET, "192.168.5.72", &server_addr.sin_addr);
+    inet_pton(AF_INET, "100.90.207.61", &server_addr.sin_addr);
 
-    connect(sock, (sockaddr*)&server_addr, sizeof(server_addr));
+    if (connect(sock, (sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        std::cerr << "Failed to connect to server.\n";
+        return 1;
+    }
+    std::cout << "Connected to server.\n";
+
 
     int flag = 1;
     setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(int));
@@ -82,6 +92,7 @@ int main(){
     }
 
     close(sock);
+    WSACleanup();
     SDL_GameControllerClose(bunga);
     SDL_Quit();
     return 0;

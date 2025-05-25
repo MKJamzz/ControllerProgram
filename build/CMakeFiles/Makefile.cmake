@@ -7,6 +7,15 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2Config.cmake"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2ConfigVersion.cmake"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2mainTargets-debug.cmake"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2mainTargets-release.cmake"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2mainTargets.cmake"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2staticTargets-debug.cmake"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2staticTargets-release.cmake"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/SDL2staticTargets.cmake"
+  "C:/Users/pugpo/dev/vcpkg/installed/x64-mingw-static/share/sdl2/sdlfind.cmake"
   "C:/Users/pugpo/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
   "C:/VSCode Files/RC Car/ControllerProgram/CMakeLists.txt"
   "CMakeFiles/4.0.2/CMakeCCompiler.cmake"
@@ -27,6 +36,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-C.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU.cmake"
+  "C:/msys64/ucrt64/share/cmake/Modules/FeatureSummary.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake"
@@ -61,5 +71,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/CarServer.dir/DependInfo.cmake"
+  "CMakeFiles/LaptopClient.dir/DependInfo.cmake"
   )
