@@ -28,7 +28,7 @@ int main(){
     int client_fd = accept(server_fd, nullptr, nullptr);
     cout << "Connected!?!?" << endl;
 
-    uint8_t buffer[2];
+    uint8_t buffer[4];
 
     while(read(client_fd, buffer, 4) == 4){
         gpioPWM(steerPin, buffer[0]);
