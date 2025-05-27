@@ -30,9 +30,16 @@ int main(){
 
     uint8_t buffer[2];
 
-    while(read(client_fd, buffer, 2) == 2){
+    while(read(client_fd, buffer, 4) == 4){
         gpioPWM(steerPin, buffer[0]);
         gpioPWM(throtPin, buffer[1]);
+        
+          if (buffer[2] == 1 || buffer[3] == 1) {
+        // Exit signal from controller or Ctrl+C
+        std::cout << "\n[INFO] Stop signal received\n";
+        break;
+    }
+  
     }
 
     //Turning pins off

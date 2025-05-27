@@ -5,68 +5,78 @@
 //Run this line in terminal to test the build
 // ./build/ControllerProgram.exe
 
-#define SDL_MAIN_HANDLED    //BRO THIS WAS THE ONLY LINE THAT I NEEDED
-#include <cpr/cpr.h>
+#define SDL_MAIN_HANDLED    
 #include <SDL.h>
-#include <gpiod.h>
 #include <iostream>
+#include <cstdint>
+#include <csignal>
+#include <unistd.h>
+#include <arpa/inet.h>
+
 using namespace std;
 
-//Function Decloration
-int main();
-void manageOutputs(int xAxis, int yAxis, int throttle,
-                   gpiod_line* up, gpiod_line* down, gpiod_line* left,
-                   gpiod_line* right, gpiod_line* throt1, gpiod_line* throt2);
-//Main function to run everything
-int main(){
+bool running = true;
+bool ctrlCPressed = false;
 
-    //Checks if the gamecontroller is connected to the program, returns 1 if none are found
+// Ctrl+C handler
+void handleSignal(int signal) {
+    if (signal == SIGINT) {
+        std::cout << "\n[INFO] Ctrl+C detected — exiting...\n";
+        ctrlCPressed = true;
+        running = false;
+    }
+}
+
+int clampToPWM(double value) {
+    return std::max(0, std::min(255, static_cast<int>((value + 1.0) * 127.5)));
+}
+
+int main() {
+    signal(SIGINT, handleSignal);  // Bind Ctrl+C
+
     if (SDL_Init(SDL_INIT_GAMECONTROLLER) < 0) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
         return 1;
     }
 
-    //Creates the variable for the gamecontroller
     SDL_GameController* bunga = nullptr;
 
-    //Outputs the name of the controller
     if (SDL_IsGameController(0)) {
         bunga = SDL_GameControllerOpen(0);
         if (bunga) {
             std::cout << "PS5 Controller connected: " << SDL_GameControllerName(bunga) << std::endl;
-        }
-        else{
-        std::cerr << "No PS5 controller detected.\n";
-        SDL_Quit();
-        return 1;
+        } else {
+            std::cerr << "No PS5 controller detected.\n";
+            SDL_Quit();
+            return 1;
         }
     }
 
+    // === Socket Setup ===
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0) {
+        std::cerr << "Socket creation failed\n";
+        SDL_Quit();
+        return 1;
+    }
+
+    sockaddr_in server{};
+    server.sin_family = AF_INET;
+    server.sin_port = htons(8000);
+    inet_pton(AF_INET, "192.168.1.100", &server.sin_addr);  // ← update this IP
+
+    if (connect(sock, (sockaddr*)&server, sizeof(server)) < 0) {
+        std::cerr << "Failed to connect to RC car server\n";
+        close(sock);
+        SDL_Quit();
+        return 1;
+    }
+
+    std::cout << "[INFO] Connected to RC car\n";
+
     SDL_Event e;
-    bool running = true;
-
-    //Variable initialization
     double leftX = 0;
-    double leftY = 0;
     double rightTrigger = 0;
-
-    //GPIO Initialization -- Make better later
-    gpiod_chip* chip = gpiod_chip_open_by_name("gpiochip0");
-    gpiod_line* up = gpiod_chip_get_line(chip,17);
-    gpiod_line* down = gpiod_chip_get_line(chip,27);
-    gpiod_line* left = gpiod_chip_get_line(chip,22);
-    gpiod_line* right = gpiod_chip_get_line(chip,23);
-    gpiod_line* throt1 = gpiod_chip_get_line(chip,5);
-    gpiod_line* throt2 = gpiod_chip_get_line(chip,6);
-    gpiod_line_request_output(up, "controller", 0);
-    gpiod_line_request_output(down, "controller", 0);
-    gpiod_line_request_output(left, "controller", 0);
-    gpiod_line_request_output(right, "controller", 0);
-    gpiod_line_request_output(throt1, "controller", 0);
-    gpiod_line_request_output(throt2, "controller", 0);
-
-
-
 
     while (running) {
         while (SDL_PollEvent(&e)) {
@@ -74,81 +84,51 @@ int main(){
                 running = false;
         }
 
-        //std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << "\r";
-        std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << endl;
-        // Get joystick positions
+        bool circlePressed = SDL_GameControllerGetButton(bunga, SDL_CONTROLLER_BUTTON_B);
+
+        if (circlePressed) {
+            std::cout << "\n[INFO] Circle button pressed — exiting...\n";
+            running = false;
+        }
 
         Sint16 rawLeftX = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTX);
-        leftX = rawLeftX /32767.0;
-
-        Sint16 rawLeftY = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTY);
-        leftY = rawLeftY /32767.0;
-
-        //Implements the deadzones
-        if (leftX <= 0.012 && leftX >= -0.012){
-            leftX = 0.000000;
-        }
-        if(leftX<-1){    //Here so it turning left doesn't turn faster than it turning right
-            leftX = -1;
-        }
-
+        leftX = rawLeftX / 32767.0;
+        if (abs(leftX) < 0.012) leftX = 0.0;
+        if (leftX < -1) leftX = -1;
 
         Sint16 rawThrottle = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
         rightTrigger = rawThrottle / 32767.0;
-        
-        std::cout << "Throttle: " << rightTrigger << " | Steering: " << leftX << "\r";
-        
-        manageOutputs(leftX, leftY, rightTrigger, up, down, left, right, throt1, throt2);
+
+        uint8_t steer = clampToPWM(leftX);
+        uint8_t throttle = clampToPWM(rightTrigger);
+        uint8_t buffer[4] = {
+            steer,               // buffer[0] = steering
+            throttle,            // buffer[1] = throttle
+            circlePressed ? 1 : 0, // buffer[2] = Circle button flag
+            ctrlCPressed ? 1 : 0   // buffer[3] = Ctrl+C flag
+        };
+
+        if (send(sock, buffer, 4, 0) < 0) {
+            std::cerr << "\n[ERROR] Failed to send data to car!\n";
+            break;
+        }
+
+        std::cout << "Throttle: " << rightTrigger
+                  << " | Steering: " << leftX
+                  << " | Circle: " << buffer[2]
+                  << " | Ctrl+C: " << buffer[3] << "\r";
 
         SDL_Delay(50);
     }
 
-    //booleans to check if camera and vr are connected and turned on (still have to setup) 
-    //if both are true, starts code to start streaming camera feed to VR
-    // if(cameraIsConnected && vrIsConnected){
-    //     startCamera();
-    //     startVR();
-    //     streamCameraToVR();
-    // }
-    //          I JUST COMMENTED IT OUT FOR NOW BECAUSE IT WASNT COMPILING 
-        
+    // Send final kill buffer to signal car to stop
+    uint8_t killBuffer[4] = {0, 0, 1, 1};
+    send(sock, killBuffer, 4, 0);
 
     SDL_GameControllerClose(bunga);
     SDL_Quit();
+    close(sock);
 
-    //GPIO Cleanup
-    gpiod_line_release(up);
-    gpiod_line_release(down);
-    gpiod_line_release(left);
-    gpiod_line_release(right);
-    gpiod_line_release(throt1);
-    gpiod_line_release(throt2);
-    gpiod_chip_close(chip);
-
+    std::cout << "\n[INFO] Program exited cleanly.\n";
     return 0;
-}   
-
-
-void manageOutputs(int xAxis, int yAxis, int throttle,
-                   gpiod_line* up, gpiod_line* down, gpiod_line* left,
-                   gpiod_line* right, gpiod_line* throt1, gpiod_line* throt2) {
-    if(xAxis > 0.75) gpiod_line_set_value(right, 1);
-    else gpiod_line_set_value(right, 0);
-
-    if(xAxis < -0.75) gpiod_line_set_value(left, 1);
-    else gpiod_line_set_value(left, 0);
-
-    if(yAxis > 0.75) gpiod_line_set_value(up, 1);
-    else gpiod_line_set_value(up, 0);
-
-    if(yAxis < -0.75) gpiod_line_set_value(down, 1);
-    else gpiod_line_set_value(down, 0);
-
-    if(throttle > 0.75) gpiod_line_set_value(throt2, 1);
-    else gpiod_line_set_value(throt2, 0);
-
-    if(throttle < 0.25) gpiod_line_set_value(throt1, 1);
-    else gpiod_line_set_value(throt1, 0);
-
-    return;
 }
