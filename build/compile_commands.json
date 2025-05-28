@@ -1,8 +1,8 @@
 [
 {
   "directory": "C:/VSCode Files/RC Car/ControllerProgram/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/LaptopClient.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\LaptopClient.dir\\LaptopClient.cpp.obj -c \"C:\\VSCode Files\\RC Car\\ControllerProgram\\LaptopClient.cpp\"",
-  "file": "C:/VSCode Files/RC Car/ControllerProgram/LaptopClient.cpp",
-  "output": "CMakeFiles/LaptopClient.dir/LaptopClient.cpp.obj"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\CarServer.dir\\CarServer.cpp.obj -c \"C:\\VSCode Files\\RC Car\\ControllerProgram\\CarServer.cpp\"",
+  "file": "C:/VSCode Files/RC Car/ControllerProgram/CarServer.cpp",
+  "output": "CMakeFiles/CarServer.dir/CarServer.cpp.obj"
 }
 ]

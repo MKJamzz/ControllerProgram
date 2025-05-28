@@ -116,41 +116,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named LaptopClient
+# Target rules for targets named CarServer
 
 # Build rule for target.
-LaptopClient: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 LaptopClient
-.PHONY : LaptopClient
+CarServer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CarServer
+.PHONY : CarServer
 
 # fast build rule for target.
-LaptopClient/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LaptopClient.dir\build.make CMakeFiles/LaptopClient.dir/build
-.PHONY : LaptopClient/fast
+CarServer/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/build
+.PHONY : CarServer/fast
 
-LaptopClient.obj: LaptopClient.cpp.obj
-.PHONY : LaptopClient.obj
+CarServer.obj: CarServer.cpp.obj
+.PHONY : CarServer.obj
 
 # target to build an object file
-LaptopClient.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LaptopClient.dir\build.make CMakeFiles/LaptopClient.dir/LaptopClient.cpp.obj
-.PHONY : LaptopClient.cpp.obj
+CarServer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/CarServer.cpp.obj
+.PHONY : CarServer.cpp.obj
 
-LaptopClient.i: LaptopClient.cpp.i
-.PHONY : LaptopClient.i
+CarServer.i: CarServer.cpp.i
+.PHONY : CarServer.i
 
 # target to preprocess a source file
-LaptopClient.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LaptopClient.dir\build.make CMakeFiles/LaptopClient.dir/LaptopClient.cpp.i
-.PHONY : LaptopClient.cpp.i
+CarServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/CarServer.cpp.i
+.PHONY : CarServer.cpp.i
 
-LaptopClient.s: LaptopClient.cpp.s
-.PHONY : LaptopClient.s
+CarServer.s: CarServer.cpp.s
+.PHONY : CarServer.s
 
 # target to generate assembly for a file
-LaptopClient.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\LaptopClient.dir\build.make CMakeFiles/LaptopClient.dir/LaptopClient.cpp.s
-.PHONY : LaptopClient.cpp.s
+CarServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CarServer.dir\build.make CMakeFiles/CarServer.dir/CarServer.cpp.s
+.PHONY : CarServer.cpp.s
 
 # Help Target
 help:
@@ -160,10 +160,10 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... LaptopClient
-	@echo ... LaptopClient.obj
-	@echo ... LaptopClient.i
-	@echo ... LaptopClient.s
+	@echo ... CarServer
+	@echo ... CarServer.obj
+	@echo ... CarServer.i
+	@echo ... CarServer.s
 .PHONY : help
 
 
