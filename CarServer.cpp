@@ -1,4 +1,4 @@
-#define SDL_MAIN_HANDLED   
+#define SDL_MAIN_HANDLED
 #include <pigpio.h>
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -6,16 +6,16 @@
 #include <cstdint>
 using namespace std;
 
-//Function decloration
+int main() {
+    if (gpioInitialise() < 0) {
+        cerr << "Failed to initialize pigpio." << endl;
+        return 1;
+    }
 
-int main(){
-    gpioInitialise();
-
-    //PWM PINS
     const int throtPin = 18;
     const int steerPin = 19;
 
-    gpioSetPWMfrequency(throtPin, 1000);
+    gpioSetPWMfrequency(throtPin, 1000);  // You can adjust frequency if needed
     gpioSetPWMfrequency(steerPin, 1000);
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -24,22 +24,28 @@ int main(){
     bind(server_fd, (sockaddr*)&address, sizeof(address));
     listen(server_fd, 1);
 
-    cout << "Waiting for connection" << endl;
+    cout << "Waiting for connection..." << endl;
     int client_fd = accept(server_fd, nullptr, nullptr);
-    cout << "Connected!?!?" << endl;
+    cout << "Client connected!" << endl;
 
     uint8_t buffer[2];
 
-    while(read(client_fd, buffer, 2) == 2){
-        gpioPWM(steerPin, buffer[0]);
-        gpioPWM(throtPin, buffer[1]);
+    while (read(client_fd, buffer, 2) == 2) {
+        uint8_t steerVal = buffer[0];
+        uint8_t throtVal = buffer[1];
+
+        gpioPWM(steerPin, steerVal);
+        gpioPWM(throtPin, throtVal);
+
+        cout << "Steering: " << static_cast<int>(steerVal)
+             << " | Throttle: " << static_cast<int>(throtVal) << endl;
     }
 
-    //Turning pins off
     gpioPWM(steerPin, 0);
     gpioPWM(throtPin, 0);
 
     close(client_fd);
     close(server_fd);
+    gpioTerminate();
     return 0;
 }
