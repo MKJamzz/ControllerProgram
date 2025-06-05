@@ -16,7 +16,7 @@ int main() {
 
     gpioSetPWMfrequency(throtPin, 1000);
     gpioSetPWMfrequency(steerPin, 1000);
-    gpioSetPWMfrequency(servoPin, 50); // aparently thats the normal hz
+    //gpioSetPWMfrequency(servoPin, 50); // aparently thats the normal hz
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in address{AF_INET, htons(8000), INADDR_ANY};
