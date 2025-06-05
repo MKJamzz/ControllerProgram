@@ -34,8 +34,14 @@ int main() {
         gpioPWM(throtPin, buffer[1]);
 
         // Servo pulse width mapping
-        int pulseWidth = 500 + ((int)buffer[4] * 2000 / 255);
+       // int pulseWidth = 500 + ((int)buffer[4] * 2000 / 255);
+    
+
+        int input = buffer[4];
+        int pulseWidth = remap(input, 0, 255, 1088, 1872);
         gpioServo(servoPin, pulseWidth);
+
+
 
         if (buffer[2] == 1 || buffer[3] == 1) {
             std::cout << "\n[INFO] Stop signal received\n";
@@ -56,4 +62,8 @@ int main() {
     close(client_fd);
     close(server_fd);
     return 0;
+}
+
+float remap(float value, float fromLow, float fromHigh, float toLow, float toHigh) {
+    return toLow     + (value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow);
 }
