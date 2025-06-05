@@ -73,7 +73,7 @@ int main() {
     // Variables
     double leftX = 0;
     double rightTrigger = 0;
-    double rightTrigger = 0;
+    double servoControl = 0;
 
     while (running) {
         SDL_GameControllerUpdate();
@@ -89,8 +89,12 @@ int main() {
         rightTrigger = rawThrottle / 32767.0;
         rightTrigger = std::clamp(rightTrigger, 0.0, 1.0);
 
+        Sint16 rawServo = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTY);
+        servoControl = (rawServo / 32767.0 + 1.0) / 2.0;  // Normalized to [0, 1]
+
         uint8_t pwmLeftX = static_cast<uint8_t>((leftX + 1) / 2 * 255);
         uint8_t pwmTrig = static_cast<uint8_t>(rightTrigger * 255);
+        uint8_t pwmServo = static_cast<uint8_t>(servoControl * 255);
 
         // Check if circle button is pressed
         bool circlePressed = SDL_GameControllerGetButton(bunga, SDL_CONTROLLER_BUTTON_B);
@@ -101,17 +105,19 @@ int main() {
         }
 
         // Combine and send
-        uint8_t buffer[4] = {
+        uint8_t buffer[5] = {
             pwmLeftX,
             pwmTrig,
             static_cast<uint8_t>(circlePressed ? 1 : 0),
-            static_cast<uint8_t>(ctrlCPressed ? 1 : 0)
+            static_cast<uint8_t>(ctrlCPressed ? 1 : 0),
+            pwmServo
         };
 
-        send(sock, reinterpret_cast<const char*>(buffer), 4, 0);
+        send(sock, reinterpret_cast<const char*>(buffer), 5, 0);
 
         cout << "Trigger: " << (int)pwmTrig 
              << " | Steering: " << (int)pwmLeftX
+             << " | Servo: " << (int)pwmServo
              << " | Circle: " << (int)buffer[2]
              << " | Ctrl+C: " << (int)buffer[3] << "\r";
 
@@ -119,8 +125,8 @@ int main() {
     }
 
     // Final buffer to stop everything on exit
-    uint8_t killBuffer[4] = {0, 0, 1, 1};
-    send(sock, reinterpret_cast<const char*>(killBuffer), 4, 0);
+    uint8_t killBuffer[5] = {0, 0, 1, 1, 0};
+    send(sock, reinterpret_cast<const char*>(killBuffer), 5, 0);
 
     close(sock);
     WSACleanup();
