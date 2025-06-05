@@ -12,7 +12,7 @@ int main(){
     // PWM PINS
     const int throtPin = 18;
     const int steerPin = 19;
-    const int servoPin = 20; 
+    const int servoPin = 13; 
 
     gpioSetPWMfrequency(throtPin, 1000);
     gpioSetPWMfrequency(steerPin, 1000);
