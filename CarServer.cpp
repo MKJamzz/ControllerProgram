@@ -42,7 +42,7 @@ int main() {
             break;
         }
     }
-
+     //Turning pins off
     gpioPWM(steerPin, 0);
     gpioPWM(throtPin, 0);
     gpioServo(servoPin, 0); 
