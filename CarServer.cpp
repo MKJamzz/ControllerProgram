@@ -41,6 +41,12 @@ int main() {
             std::cout << "\n[INFO] Stop signal received\n";
             break;
         }
+
+        cout << "Trigger: " << (int)buffer[0] 
+             << " | Steering: " << (int)buffer[1]
+             << " | Servo: " << (int)pulseWidth
+             << " | Circle: " << (int)buffer[2]
+             << " | Ctrl+C: " << (int)buffer[3] << "\r";
     }
      //Turning pins off
     gpioPWM(steerPin, 0);
