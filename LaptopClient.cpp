@@ -9,33 +9,45 @@
 #include <cstdint>
 #include <iostream>
 #include <algorithm>
+#include <csignal>
 #include <winsock2.h>
 #include <ws2tcpip.h>    
 using namespace std;
 
-int main(){
+bool running = true;
+bool ctrlCPressed = false;
+
+// Handle Ctrl+C
+void handleSignal(int signal) {
+    if (signal == SIGINT) {
+        std::cout << "\n[INFO] Ctrl+C detected. Exiting...\n";
+        ctrlCPressed = true;
+        running = false;
+    }
+}
+
+int main() {
+    signal(SIGINT, handleSignal);  // Bind Ctrl+C handler
+
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         std::cerr << "WSAStartup failed\n";
         return 1;
     }
 
-    // Connecting the controller on start up
+    // Connecting the gametroller on start up
     if (SDL_Init(SDL_INIT_GAMECONTROLLER) < 0) {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
         return 1;
     }
 
-    // Creates the variable to the controller
     SDL_GameController* bunga = nullptr;
 
-    // Outputs the name of the controller
     if (SDL_IsGameController(0)) {
         bunga = SDL_GameControllerOpen(0);
         if (bunga) {
             std::cout << "PS5 Controller connected: " << SDL_GameControllerName(bunga) << std::endl;
-        }
-        else {
+        } else {
             std::cerr << "No PS5 controller detected.\n";
             SDL_Quit();
             return 1;
@@ -50,52 +62,71 @@ int main(){
         std::cerr << "Failed to connect to server.\n";
         return 1;
     }
+
     std::cout << "Connected to server.\n";
 
     int flag = 1;
     setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&flag, sizeof(int));
 
     SDL_Event e;
-    bool running = true;
 
-    // Variable initialization
+    // Variables
     double leftX = 0;
+    double rightTrigger = 0;
     double rightTrigger = 0;
 
     while (running) {
         SDL_GameControllerUpdate();
-        
+
         Sint16 rawLeftX = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTX);
         leftX = rawLeftX / 32767.0;
 
-        // Implements the deadzones
+        //Implement the deadzones 
         if (leftX <= 0.013 && leftX >= -0.013) leftX = 0.0;
-        leftX = std::clamp(leftX, -1.0, 1.0);       
+        leftX = std::clamp(leftX, -1.0, 1.0);
 
         Sint16 rawThrottle = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
         rightTrigger = rawThrottle / 32767.0;
         rightTrigger = std::clamp(rightTrigger, 0.0, 1.0);
 
-        uint8_t pwmLeftX = static_cast<uint8_t>((leftX + 1)/2 * 255); // Map -1 -> 1, into 0 -> 255
+        uint8_t pwmLeftX = static_cast<uint8_t>((leftX + 1) / 2 * 255);
         uint8_t pwmTrig = static_cast<uint8_t>(rightTrigger * 255);
 
-        // Fixed test value for the servo (for now, 128 = center)
-        uint8_t servoTestPWM = 128;
+        // Check if circle button is pressed
+        bool circlePressed = SDL_GameControllerGetButton(bunga, SDL_CONTROLLER_BUTTON_B);
 
-        // Send all three values
-        uint8_t buffer[3] = {pwmLeftX, pwmTrig, servoTestPWM};
-        send(sock, reinterpret_cast<const char*>(buffer), 3, 0);
+        if (circlePressed) {
+            std::cout << "\n[INFO] Circle button pressed. Exiting...\n";
+            running = false;
+        }
+
+        // Combine and send
+        uint8_t buffer[4] = {
+            pwmLeftX,
+            pwmTrig,
+            static_cast<uint8_t>(circlePressed ? 1 : 0),
+            static_cast<uint8_t>(ctrlCPressed ? 1 : 0)
+        };
+
+        send(sock, reinterpret_cast<const char*>(buffer), 4, 0);
 
         cout << "Trigger: " << (int)pwmTrig 
-             << " | Steering: " << (int)pwmLeftX 
-             << " | ServoTest: " << (int)servoTestPWM << endl;
+             << " | Steering: " << (int)pwmLeftX
+             << " | Circle: " << (int)buffer[2]
+             << " | Ctrl+C: " << (int)buffer[3] << "\r";
 
         usleep(50000);
     }
+
+    // Final buffer to stop everything on exit
+    uint8_t killBuffer[4] = {0, 0, 1, 1};
+    send(sock, reinterpret_cast<const char*>(killBuffer), 4, 0);
 
     close(sock);
     WSACleanup();
     SDL_GameControllerClose(bunga);
     SDL_Quit();
+
+    std::cout << "\n[INFO] Exited cleanly.\n";
     return 0;
 }
