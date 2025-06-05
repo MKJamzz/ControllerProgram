@@ -16,7 +16,7 @@ int main(){
 
     gpioSetPWMfrequency(throtPin, 1000);
     gpioSetPWMfrequency(steerPin, 1000);
-    gpioSetPWMfrequency(servoPin, 50); 
+    gpioSetPWMfrequency(servoPin, 50);  // servo usually 50 Hz, good!
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in address{AF_INET, htons(8000), INADDR_ANY};
@@ -37,7 +37,7 @@ int main(){
 
         cout << "Steering PWM: " << static_cast<int>(buffer[0])
              << " | Throttle PWM: " << static_cast<int>(buffer[1])
-             << " | Servo PWM (GPIO 20): " << static_cast<int>(buffer[2]) << endl;
+             << " | Servo PWM (GPIO 13): " << static_cast<int>(buffer[2]) << endl;
     }
 
     // Turning pins off
