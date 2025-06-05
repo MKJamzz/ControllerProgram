@@ -6,6 +6,10 @@
 #include <cstdint>
 using namespace std;
 
+float remap(float value, float fromLow, float fromHigh, float toLow, float toHigh) {
+    return toLow     + (value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow);
+}
+
 int main() {
     gpioInitialise();
 
@@ -64,6 +68,4 @@ int main() {
     return 0;
 }
 
-float remap(float value, float fromLow, float fromHigh, float toLow, float toHigh) {
-    return toLow     + (value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow);
-}
+
