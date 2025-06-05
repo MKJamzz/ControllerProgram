@@ -38,9 +38,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "LaptopClient::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-LaptopClient-Debug-1db7e4daf4cfd3f25071.json",
-					"name" : "LaptopClient",
+					"id" : "CarServer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CarServer-Debug-10c1d46242ba0f9743e3.json",
+					"name" : "CarServer",
 					"projectIndex" : 0
 				}
 			]
