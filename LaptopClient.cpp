@@ -73,6 +73,7 @@ int main() {
     // Variables
     double leftX = 0;
     double rightTrigger = 0;
+    double leftTrigger = 0;
     double servoControl = 0;
 
     while (running) {
@@ -85,15 +86,20 @@ int main() {
         if (leftX <= 0.013 && leftX >= -0.013) leftX = 0.0;
         leftX = std::clamp(leftX, -1.0, 1.0);
 
-        Sint16 rawThrottle = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
-        rightTrigger = rawThrottle / 32767.0;
+        Sint16 rawRT = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+        rightTrigger = rawRT / 32767.0;
         rightTrigger = std::clamp(rightTrigger, 0.0, 1.0);
+
+        Sint16 rawLT = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+        leftTrigger = rawLT / 32767.0;
+        leftTrigger = std::clamp(leftTrigger, 0.0, 1.0);
 
         Sint16 rawServo = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_LEFTY);
         servoControl = (rawServo / 32767.0 + 1.0) / 2.0;  // Normalized to [0, 1]
 
         uint8_t pwmLeftX = static_cast<uint8_t>((leftX + 1) / 2 * 255);
-        uint8_t pwmTrig = static_cast<uint8_t>(rightTrigger * 255);
+        uint8_t pwmRT = static_cast<uint8_t>(rightTrigger * 255);
+        uint8_t pwmLT = static_cast<uint8_t>(leftTrigger * 255);
         uint8_t pwmServo = static_cast<uint8_t>(servoControl * 255);
 
         // Check if circle button is pressed
@@ -105,17 +111,19 @@ int main() {
         }
 
         // Combine and send
-        uint8_t buffer[5] = {
+        uint8_t buffer[6] = {
             pwmLeftX,
-            pwmTrig,
+            pwmRT,
             static_cast<uint8_t>(circlePressed ? 1 : 0),
             static_cast<uint8_t>(ctrlCPressed ? 1 : 0),
-            pwmServo
+            pwmServo,
+            pwmLT
         };
 
         send(sock, reinterpret_cast<const char*>(buffer), 5, 0);
 
-        cout << "Trigger: " << (int)pwmTrig 
+        cout << "RT: " << (int)pwmRT 
+             << "LT: " << (int)pwmLT 
              << " | Steering: " << (int)pwmLeftX
              << " | Servo: " << (int)pwmServo
              << " | Circle: " << (int)buffer[2]
@@ -125,8 +133,8 @@ int main() {
     }
 
     // Final buffer to stop everything on exit
-    uint8_t killBuffer[5] = {0, 0, 1, 1, 0};
-    send(sock, reinterpret_cast<const char*>(killBuffer), 5, 0);
+    uint8_t killBuffer[6] = {0, 0, 1, 1, 0, 0};
+    send(sock, reinterpret_cast<const char*>(killBuffer), 6, 0);
 
     close(sock);
     WSACleanup();

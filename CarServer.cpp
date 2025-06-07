@@ -14,12 +14,25 @@ int main() {
     gpioInitialise();
 
     // PWM pins
-    const int throtPin = 18;
-    const int steerPin = 19;
-    const int servoPin = 13;
+    const int stickPin = 12;
+    const int RPWM = 18;
+    const int LPWM = 19;
+    const int L_EN = 23;
+    const int R_EN = 24;
 
-    gpioSetPWMfrequency(throtPin, 1000);
-    gpioSetPWMfrequency(steerPin, 1000);
+    //Sets the outputs of all of the GPIO pins
+    gpioSetMode(RPWM, PI_OUTPUT);
+    gpioSetMode(LPWM, PI_OUTPUT);
+    gpioSetMode(R_EN, PI_OUTPUT);
+    gpioSetMode(L_EN, PI_OUTPUT);
+
+
+    //Enables both of the motors
+    gpioWrite(R_EN, 1);
+    gpioWrite(L_EN, 1);
+
+    gpioSetPWMfrequency(RPWM, 1000);
+    gpioSetPWMfrequency(LPWM, 1000);
     //gpioSetPWMfrequency(servoPin, 50); // aparently thats the normal hz
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -31,11 +44,10 @@ int main() {
     int client_fd = accept(server_fd, nullptr, nullptr);
     cout << "Connected!" << endl;
 
-    uint8_t buffer[5];
+    uint8_t buffer[6];
 
-    while (read(client_fd, buffer, 5) == 5) {
-        gpioPWM(steerPin, buffer[0]);
-        gpioPWM(throtPin, buffer[1]);
+    while (read(client_fd, buffer, 6) == 6) {
+        gpioPWM(stickPin, buffer[0]);
 
         // Servo pulse width mapping
        // int pulseWidth = 500 + ((int)buffer[4] * 2000 / 255);
@@ -43,7 +55,24 @@ int main() {
 
         int input = buffer[4];
         int pulseWidth = remap(input, 0, 255, 1088, 1872);
-        gpioServo(servoPin, pulseWidth);
+        int reverseSpeed = remap(buffer[5], 0, 255, 0 , 127);   //moves the car backward
+        int forwardSpeed = remap(buffer[1], 0, 255, 0 , 127);   //moves the car forward
+
+        if (forwardSpeed > 10 && reverseSpeed <= 10) {
+            gpioPWM(RPWM, forwardSpeed);  // Forward
+            gpioPWM(LPWM, 0);
+        } 
+        else if (reverseSpeed > 10 && forwardSpeed <= 10) {
+            gpioPWM(RPWM, 0);
+            gpioPWM(LPWM, reverseSpeed);  // Reverse
+        }
+        else {
+            gpioPWM(RPWM, 0);  // Stop
+            gpioPWM(LPWM, 0);
+        }
+
+
+        gpioServo(stickPin, pulseWidth);
 
 
 
