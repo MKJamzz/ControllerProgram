@@ -120,7 +120,7 @@ int main() {
             pwmLT
         };
 
-        send(sock, reinterpret_cast<const char*>(buffer), 5, 0);
+        send(sock, reinterpret_cast<const char*>(buffer), 6, 0);
 
         cout << "RT: " << (int)pwmRT 
              << "LT: " << (int)pwmLT 

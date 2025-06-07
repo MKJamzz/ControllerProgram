@@ -87,8 +87,9 @@ int main() {
             break;
         }
 
-        cout << "Trigger: " << (int)buffer[0] 
-             << " | Steering: " << (int)buffer[1]
+        cout << "Left Trigger: " << (int)buffer[5] 
+             << "Left Trigger: " << (int)buffer[1] 
+             << " | Steering: " << (int)buffer[0]
              << " | Servo: " << (int)pulseWidth
              << " | Circle: " << (int)buffer[2]
              << " | Ctrl+C: " << (int)buffer[3] << "\r";
