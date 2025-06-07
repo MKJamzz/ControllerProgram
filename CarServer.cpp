@@ -46,7 +46,8 @@ int main() {
 
     uint8_t buffer[6];
 
-    while (read(client_fd, buffer, 6) == 6) {
+    //while (read(client_fd, buffer, 6) == 6) {
+    while (true) {
         gpioPWM(stickPin, buffer[0]);
 
         // Servo pulse width mapping
