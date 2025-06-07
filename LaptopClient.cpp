@@ -90,7 +90,7 @@ int main() {
         rightTrigger = rawRT / 32767.0;
         rightTrigger = std::clamp(rightTrigger, 0.0, 1.0);
 
-        Sint16 rawLT = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+        Sint16 rawLT = SDL_GameControllerGetAxis(bunga, SDL_CONTROLLER_AXIS_TRIGGERLEFT);
         leftTrigger = rawLT / 32767.0;
         leftTrigger = std::clamp(leftTrigger, 0.0, 1.0);
 

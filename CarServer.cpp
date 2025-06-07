@@ -33,6 +33,12 @@ int main() {
 
     gpioSetPWMfrequency(RPWM, 1000);
     gpioSetPWMfrequency(LPWM, 1000);
+
+
+    gpioPWM(RPWM, 0);
+    gpioPWM(LPWM, 0);
+    gpioWrite(R_EN, 0);
+    gpioWrite(L_EN, 0);
     //gpioSetPWMfrequency(servoPin, 50); // aparently thats the normal hz
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -46,8 +52,7 @@ int main() {
 
     uint8_t buffer[6];
 
-    //while (read(client_fd, buffer, 6) == 6) {
-    while (true) {
+    while (read(client_fd, buffer, 6) == 6) {
         gpioPWM(stickPin, buffer[0]);
 
         // Servo pulse width mapping
@@ -88,12 +93,13 @@ int main() {
              << " | Circle: " << (int)buffer[2]
              << " | Ctrl+C: " << (int)buffer[3] << "\r";
     }
-     //Turning pins off
+        //Turning pins off
     gpioPWM(RPWM, 0);
     gpioPWM(LPWM, 0);
-    gpioPWM(L_EN, 0);
-    gpioPWM(R_EN, 0);
-    gpioServo(stickPin, 0); 
+    gpioWrite(R_EN, 0);
+    gpioWrite(L_EN, 0);
+    gpioServo(stickPin, 0);
+
 
     close(client_fd);
     close(server_fd);
