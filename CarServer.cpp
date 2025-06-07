@@ -37,8 +37,8 @@ int main() {
 
     gpioPWM(RPWM, 0);
     gpioPWM(LPWM, 0);
-    gpioWrite(R_EN, 0);
-    gpioWrite(L_EN, 0);
+    //gpioWrite(R_EN, 0);
+    //gpioWrite(L_EN, 0);
     //gpioSetPWMfrequency(servoPin, 50); // aparently thats the normal hz
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
