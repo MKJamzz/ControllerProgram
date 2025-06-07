@@ -88,9 +88,11 @@ int main() {
              << " | Ctrl+C: " << (int)buffer[3] << "\r";
     }
      //Turning pins off
-    gpioPWM(steerPin, 0);
-    gpioPWM(throtPin, 0);
-    gpioServo(servoPin, 0); 
+    gpioPWM(RPWM, 0);
+    gpioPWM(LPWM, 0);
+    gpioPWM(L_EN, 0);
+    gpioPWM(R_EN, 0);
+    gpioServo(stickPin, 0); 
 
     close(client_fd);
     close(server_fd);
