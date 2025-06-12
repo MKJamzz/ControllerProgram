@@ -55,7 +55,7 @@ int main() {
     }
 
     int sock = socket(AF_INET, SOCK_STREAM, 0);
-    sockaddr_in server_addr{AF_INET, htons(8000)};
+    sockaddr_in server_addr{AF_INET, htons(8999)};
     inet_pton(AF_INET, "100.90.207.61", &server_addr.sin_addr);
 
     if (connect(sock, (sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
