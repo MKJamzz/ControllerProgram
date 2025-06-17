@@ -60,7 +60,7 @@ int main() {
     
 
         int input = buffer[4];
-        int pulseWidth = remap(input, 0, 255, 1088, 1872);
+        int pulseWidth = remap(input, 0, 255, 696, 1476);
         int reverseSpeed = remap(buffer[5], 0, 255, 0 , 127);   //moves the car backward
         int forwardSpeed = remap(buffer[1], 0, 255, 0 , 127);   //moves the car forward
 
