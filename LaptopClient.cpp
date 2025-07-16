@@ -98,8 +98,8 @@ int main() {
         servoControl = (rawServo / 32767.0 + 1.0) / 2.0;  // Normalized to [0, 1]
 
         uint8_t pwmLeftX = static_cast<uint8_t>((leftX + 1) / 2 * 255);
-        uint8_t pwmRT = static_cast<uint8_t>(rightTrigger * 255);
-        uint8_t pwmLT = static_cast<uint8_t>(leftTrigger * 255);
+        uint8_t pwmRT = static_cast<uint8_t>(rightTrigger * 127);
+        uint8_t pwmLT = static_cast<uint8_t>(leftTrigger * 127);
         uint8_t pwmServo = static_cast<uint8_t>(servoControl * 255);
 
         // Check if circle button is pressed
@@ -113,11 +113,11 @@ int main() {
         // Combine and send
         uint8_t buffer[6] = {
             pwmLeftX,
-            pwmRT,
+            pwmLT,
             static_cast<uint8_t>(circlePressed ? 1 : 0),
             static_cast<uint8_t>(ctrlCPressed ? 1 : 0),
             pwmServo,
-            pwmLT
+            pwmRT
         };
 
         send(sock, reinterpret_cast<const char*>(buffer), 6, 0);
