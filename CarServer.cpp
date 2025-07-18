@@ -61,8 +61,8 @@ int main() {
 
         int input = buffer[4];
         int pulseWidth = remap(input, 0, 255, 696, 1476);
-        int reverseSpeed = remap(buffer[5], 0, 255, 0 , 127);   //moves the car backward
-        int forwardSpeed = remap(buffer[1], 0, 255, 0 , 127);   //moves the car forward
+        int reverseSpeed = remap(buffer[5], 0, 255, 0 , 255);   //moves the car backward
+        int forwardSpeed = remap(buffer[1], 0, 255, 0 , 255);   //moves the car forward
 
         if (forwardSpeed > 15 && reverseSpeed <= 10) {
             gpioPWM(RPWM, forwardSpeed);  // Forward
@@ -87,7 +87,7 @@ int main() {
             break;
         }
 
-        cout << "Left Trigger: " << (int)buffer[5] 
+        cout << "Right Trigger: " << (int)buffer[5] 
              << "Left Trigger: " << (int)buffer[1] 
              << " | Steering: " << (int)buffer[0]
              << " | Servo: " << (int)pulseWidth
