@@ -42,7 +42,7 @@ int main() {
     //gpioSetPWMfrequency(servoPin, 50); // aparently thats the normal hz
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
-    sockaddr_in address{AF_INET, htons(8999), INADDR_ANY};
+    sockaddr_in address{AF_INET, htons(9000), INADDR_ANY};
     bind(server_fd, (sockaddr*)&address, sizeof(address));
     listen(server_fd, 1);
 
@@ -81,11 +81,7 @@ int main() {
         gpioWrite(L_EN, 0);
     }
 
-
-
         gpioServo(stickPin, pulseWidth);
-
-
 
         if (buffer[2] == 1 || buffer[3] == 1) {
             std::cout << "\n[INFO] Stop signal received\n";

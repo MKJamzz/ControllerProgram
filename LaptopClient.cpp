@@ -55,8 +55,8 @@ int main() {
     }
 
     int sock = socket(AF_INET, SOCK_STREAM, 0);
-    sockaddr_in server_addr{AF_INET, htons(8999)};
-    inet_pton(AF_INET, "100.90.207.61", &server_addr.sin_addr);
+    sockaddr_in server_addr{AF_INET, htons(9000)};
+    inet_pton(AF_INET, "100.80.123.33", &server_addr.sin_addr);
 
     if (connect(sock, (sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
         std::cerr << "Failed to connect to server.\n";
@@ -112,11 +112,11 @@ int main() {
 
         // Combine and send
         uint8_t buffer[6] = {
-            pwmLeftX,
+            pwmServo,
             pwmLT,
             static_cast<uint8_t>(circlePressed ? 1 : 0),
             static_cast<uint8_t>(ctrlCPressed ? 1 : 0),
-            pwmServo,
+            pwmLeftX,
             pwmRT
         };
 
