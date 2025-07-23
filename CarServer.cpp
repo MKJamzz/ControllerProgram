@@ -64,22 +64,24 @@ int main() {
         int reverseSpeed = remap(buffer[5], 0, 255, 0 , 50);   //moves the car backward
         int forwardSpeed = remap(buffer[1], 0, 255, 0 , 100);   //moves the car forward
 
-    if (forwardSpeed > 5 && reverseSpeed <= 5) {
-        gpioWrite(R_EN, 1);
-        gpioWrite(L_EN, 1);
-        gpioPWM(RPWM, forwardSpeed);
-        gpioPWM(LPWM, 0);
-    } else if (reverseSpeed > 5 && forwardSpeed <= 5) {
-        gpioWrite(R_EN, 1);
-        gpioWrite(L_EN, 1);
-        gpioPWM(RPWM, 0);
-        gpioPWM(LPWM, reverseSpeed);
-    } else {
-        gpioPWM(RPWM, 0);
-        gpioPWM(LPWM, 0);
-        gpioWrite(R_EN, 0);
-        gpioWrite(L_EN, 0);
-    }
+
+        if (forwardSpeed > 5 && reverseSpeed <= 5) {
+            gpioWrite(R_EN, 1);
+            gpioWrite(L_EN, 1);
+            gpioHardwarePWM(RPWM, 1000, forwardSpeed * 10000);
+            gpioHardwarePWM(LPWM, 1000, 0);
+        } else if (reverseSpeed > 5 && forwardSpeed <= 5) {
+            gpioWrite(R_EN, 1);
+            gpioWrite(L_EN, 1);
+            gpioHardwarePWM(RPWM, 1000, 0);
+            gpioHardwarePWM(LPWM, 1000, reverseSpeed * 10000);
+        } else {
+            gpioHardwarePWM(RPWM, 1000, 0);
+            gpioHardwarePWM(LPWM, 1000, 0);
+            gpioWrite(R_EN, 0);
+            gpioWrite(L_EN, 0);
+        }
+
 
         gpioServo(stickPin, pulseWidth);
 
