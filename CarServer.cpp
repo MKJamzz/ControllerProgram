@@ -31,8 +31,8 @@ int main() {
     gpioWrite(R_EN, 1);
     gpioWrite(L_EN, 1);
 
-    gpioSetPWMfrequency(RPWM, 20000);
-    gpioSetPWMfrequency(LPWM, 20000);
+    gpioSetPWMfrequency(RPWM, 25000);
+    gpioSetPWMfrequency(LPWM, 25000);
 
 
     gpioPWM(RPWM, 0);
@@ -65,22 +65,25 @@ int main() {
         int forwardSpeed = remap(buffer[1], 0, 255, 0 , 30);   //moves the car forward
 
 
-            if (forwardSpeed > 5 && reverseSpeed <= 5) {
-                gpioWrite(R_EN, 1);
-                gpioWrite(L_EN, 1);
-                gpioPWM(RPWM, forwardSpeed);
-                gpioPWM(LPWM, 0);
-            } else if (reverseSpeed > 5 && forwardSpeed <= 5) {
-                gpioWrite(R_EN, 1);
-                gpioWrite(L_EN, 1);
-                gpioPWM(RPWM, 0);
-                gpioPWM(LPWM, reverseSpeed);
-            } else {
-                gpioPWM(RPWM, 0);
-                gpioPWM(LPWM, 0);
-                gpioWrite(R_EN, 0);
-                gpioWrite(L_EN, 0);
-            }
+        const int pwmFreq = 25000;
+
+        if (forwardSpeed > 5 && reverseSpeed <= 5) {
+            gpioWrite(R_EN, 1);
+            gpioWrite(L_EN, 1);
+            gpioHardwarePWM(RPWM, pwmFreq, forwardSpeed * 10000);  // 10,000 = 1% of 1M
+            gpioHardwarePWM(LPWM, pwmFreq, 0);
+        } else if (reverseSpeed > 5 && forwardSpeed <= 5) {
+            gpioWrite(R_EN, 1);
+            gpioWrite(L_EN, 1);
+            gpioHardwarePWM(RPWM, pwmFreq, 0);
+            gpioHardwarePWM(LPWM, pwmFreq, reverseSpeed * 10000);
+        } else {
+            gpioHardwarePWM(RPWM, pwmFreq, 0);
+            gpioHardwarePWM(LPWM, pwmFreq, 0);
+            gpioWrite(R_EN, 0);
+            gpioWrite(L_EN, 0);
+        }
+
 
 
         gpioServo(stickPin, pulseWidth);
@@ -95,7 +98,9 @@ int main() {
              << " | Steering: " << (int)buffer[0]
              << " | Servo: " << (int)pulseWidth
              << " | Circle: " << (int)buffer[2]
-             << " | Ctrl+C: " << (int)buffer[3] << "\r";
+             << " | Ctrl+C: " << (int)buffer[3]
+             << " | forwardSpeed: " << forwardSpeed
+             << " | reverseSpeed: " << reverseSpeed << "\r";
     }
         //Turning pins off
     gpioPWM(RPWM, 0);
