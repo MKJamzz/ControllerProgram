@@ -65,26 +65,29 @@ int main() {
         int forwardSpeed = remap(buffer[1], 0, 255, 0 , 30);   //moves the car forward
 
 
-        const int pwmFreq = 25000;
+    const int pwmFreq = 25000;
 
-        if (forwardSpeed > 5 && reverseSpeed <= 5) {
-            gpioWrite(R_EN, 1);
-            gpioWrite(L_EN, 1);
-            gpioHardwarePWM(RPWM, pwmFreq, forwardSpeed * 10000);  // 10,000 = 1% of 1M
-            gpioHardwarePWM(LPWM, pwmFreq, 0);
-        } else if (reverseSpeed > 5 && forwardSpeed <= 5) {
-            gpioWrite(R_EN, 1);
-            gpioWrite(L_EN, 1);
-            gpioHardwarePWM(RPWM, pwmFreq, 0);
-            gpioHardwarePWM(LPWM, pwmFreq, reverseSpeed * 10000);
-        } else {
-            gpioHardwarePWM(RPWM, pwmFreq, 0);
-            gpioHardwarePWM(LPWM, pwmFreq, 0);
-            gpioWrite(R_EN, 0);
-            gpioWrite(L_EN, 0);
-        }
+    // if (forwardSpeed > 5 && reverseSpeed <= 5) {
+    //     gpioWrite(R_EN, 1);
+    //     gpioWrite(L_EN, 1);
+    //     gpioHardwarePWM(RPWM, pwmFreq, forwardSpeed * 10000);  // 10,000 = 1% of 1M
+    //     gpioHardwarePWM(LPWM, pwmFreq, 0);
+    // } else if (reverseSpeed > 5 && forwardSpeed <= 5) {
+    //     gpioWrite(R_EN, 1);
+    //     gpioWrite(L_EN, 1);
+    //     gpioHardwarePWM(RPWM, pwmFreq, 0);
+    //     gpioHardwarePWM(LPWM, pwmFreq, reverseSpeed * 10000);
+    // } else {
+    //     gpioHardwarePWM(RPWM, pwmFreq, 0);
+    //     gpioHardwarePWM(LPWM, pwmFreq, 0);
+    //     gpioWrite(R_EN, 0);
+    //     gpioWrite(L_EN, 0);
+    // }
 
-
+        gpioWrite(R_EN, 1);
+        gpioWrite(L_EN, 1);
+        gpioHardwarePWM(RPWM, pwmFreq, 10000);  // 10,000 = 1% of 1M
+        gpioHardwarePWM(LPWM, pwmFreq, 0);
 
         gpioServo(stickPin, pulseWidth);
 
