@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(CarServer CarServer.cpp)
 target_link_libraries(CarServer PRIVATE pigpio rt)
 
+
 # ---- Original RCCarController if needed (Pi only) ----
 # add_executable(RCCarController main.cpp)
 # target_link_libraries(RCCarController PRIVATE cpr::cpr SDL2::SDL2 OpenSSL::SSL OpenSSL::Crypto gpiod)
