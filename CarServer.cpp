@@ -60,8 +60,8 @@ int main() {
     
 
         int input = buffer[4];
-        int pulseWidth = remap(input, 0, 255, 1476, 696);
-        int reverseSpeed = remap(buffer[5], 0, 255, 0 , 100);   //moves the car backward
+        int pulseWidth = remap(input, 0, 255, 696, 1476);
+        int reverseSpeed = remap(buffer[5], 0, 255, 0 , 50);   //moves the car backward
         int forwardSpeed = remap(buffer[1], 0, 255, 0 , 100);   //moves the car forward
 
     if (forwardSpeed > 5 && reverseSpeed <= 5) {
