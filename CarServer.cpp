@@ -61,8 +61,8 @@ int main() {
 
         int input = buffer[4];
         int pulseWidth = remap(input, 0, 255, 1476, 696);
-        int reverseSpeed = remap(buffer[5], 0, 255, 0 , 30);   //moves the car backward
-        int forwardSpeed = remap(buffer[1], 0, 255, 0 , 30);   //moves the car forward
+        int reverseSpeed = remap(buffer[5], 0, 255, 0 , 50);   //moves the car backward
+        int forwardSpeed = remap(buffer[1], 0, 255, 0 , 50);   //moves the car forward
 
 
 const int pwmFreq = 25000;
@@ -70,13 +70,13 @@ const int pwmFreq = 25000;
 if (forwardSpeed > 5 && reverseSpeed <= 5) {
     gpioWrite(R_EN, 1);
     gpioWrite(L_EN, 1);
-    gpioHardwarePWM(RPWM, pwmFreq, 400000);  // 10,000 = 1% of 1M
+    gpioHardwarePWM(RPWM, pwmFreq, forwardSpeed * 10000);  // 10,000 = 1% of 1M
     gpioHardwarePWM(LPWM, pwmFreq, 0);
 } else if (reverseSpeed > 5 && forwardSpeed <= 5) {
     gpioWrite(R_EN, 1);
     gpioWrite(L_EN, 1);
     gpioHardwarePWM(RPWM, pwmFreq, 0);
-    gpioHardwarePWM(LPWM, pwmFreq, 400000);
+    gpioHardwarePWM(LPWM, pwmFreq, reverseSpeed * 10000);
 } else {
     gpioHardwarePWM(RPWM, pwmFreq, 0);
     gpioHardwarePWM(LPWM, pwmFreq, 0);
@@ -93,14 +93,12 @@ if (forwardSpeed > 5 && reverseSpeed <= 5) {
             break;
         }
 
-        cout << "Right Trigger: " << (int)buffer[5] 
-             << "Left Trigger: " << (int)buffer[1] 
+        cout << "Right Trigger: " << forwardSpeed 
+             << "Left Trigger: " << reverseSpeed 
              << " | Steering: " << (int)buffer[0]
              << " | Servo: " << (int)pulseWidth
              << " | Circle: " << (int)buffer[2]
-             << " | Ctrl+C: " << (int)buffer[3]
-             << " | forwardSpeed: " << forwardSpeed
-             << " | reverseSpeed: " << reverseSpeed << "\r";
+             << " | Ctrl+C: " << (int)buffer[3] << "\r";
     }
         //Turning pins off
     gpioPWM(RPWM, 0);
