@@ -72,11 +72,11 @@ if (forwardSpeed > 5 && reverseSpeed <= 5) {
     gpioWrite(L_EN, 1);
     gpioHardwarePWM(RPWM, pwmFreq, reverseSpeed * 10000);  // 10,000 = 1% of 1M
     gpioHardwarePWM(LPWM, pwmFreq, 0);
-} else if (reverseSpeed > 5 && forwardSpeed <= 5) {     //For Some reason moving it forward rn
+} else if (reverseSpeed > 5 && forwardSpeed <= 5) {     //For Some reason moving it forward
     gpioWrite(R_EN, 1);
     gpioWrite(L_EN, 1);
-    gpioHardwarePWM(RPWM, pwmFreq, reverseSpeed * 10000);
-    gpioHardwarePWM(LPWM, pwmFreq, 0);
+    gpioHardwarePWM(RPWM, pwmFreq, 0);
+    gpioHardwarePWM(LPWM, pwmFreq, reverseSpeed * 10000);
 } else {
     gpioHardwarePWM(RPWM, pwmFreq, 0);
     gpioHardwarePWM(LPWM, pwmFreq, 0);
