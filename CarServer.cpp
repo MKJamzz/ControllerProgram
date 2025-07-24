@@ -61,8 +61,8 @@ int main() {
 
         int input = buffer[4];
         int pulseWidth = remap(input, 0, 255, 1476, 696);
-        int reverseSpeed = remap(buffer[5], 0, 255, 0 , 50);   //moves the car backward
-        int forwardSpeed = remap(buffer[1], 0, 255, 0 , 50);   //moves the car forward
+        int reverseSpeed = remap(buffer[1], 0, 255, 0 , 50);   //moves the car backward
+        int forwardSpeed = remap(buffer[5], 0, 255, 0 , 50);   //moves the car forward
 
 
 const int pwmFreq = 25000;
