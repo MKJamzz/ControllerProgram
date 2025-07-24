@@ -15,7 +15,7 @@ int main() {
 
     // PWM pins
     const int stickPin = 12;
-    const int RPWM = 13;
+    const int RPWM = 18;
     const int LPWM = 19;
     const int L_EN = 23;
     const int R_EN = 24;
