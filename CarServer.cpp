@@ -15,7 +15,7 @@ int main() {
 
     // PWM pins
     const int stickPin = 12;
-    const int RPWM = 18;
+    const int RPWM = 17;    //Uses a software pwm in order for it to actually work
     const int LPWM = 19;
     const int L_EN = 23;
     const int R_EN = 24;
@@ -61,25 +61,45 @@ int main() {
 
         int input = buffer[4];
         int pulseWidth = remap(input, 0, 255, 1476, 696);
-        int reverseSpeed = remap(buffer[1], 0, 255, 0 , 50);   //moves the car backward
-        int forwardSpeed = remap(buffer[5], 0, 255, 0 , 50);   //moves the car forward
+        int reverseSpeed = remap(buffer[1], 0, 255, 0 , 100);   //moves the car backward
+        int forwardSpeed = remap(buffer[5], 0, 255, 0 , 100);   //moves the car forward
 
 
 const int pwmFreq = 25000;
 
+// if (forwardSpeed > 5 && reverseSpeed <= 5) {
+//     gpioWrite(R_EN, 1);
+//     gpioWrite(L_EN, 1);
+//     gpioHardwarePWM(RPWM, pwmFreq, forwardSpeed * 10000);  // 10,000 = 1% of 1M
+//     gpioHardwarePWM(LPWM, pwmFreq, 0);
+// } else if (reverseSpeed > 5 && forwardSpeed <= 5) {     //For Some reason moving
+//     gpioWrite(R_EN, 1);
+//     gpioWrite(L_EN, 1);
+//     gpioHardwarePWM(RPWM, pwmFreq, 0);
+//     gpioHardwarePWM(LPWM, pwmFreq, reverseSpeed * 10000);
+// } else {
+//     gpioHardwarePWM(RPWM, pwmFreq, 0);
+//     gpioHardwarePWM(LPWM, pwmFreq, 0);
+//     gpioWrite(R_EN, 0);
+//     gpioWrite(L_EN, 0);
+// }
+
+gpioSetPWMfrequency(RPWM, 25000);  // 1kHz software PWM
+gpioSetPWMfrequency(LPWM, 25000);  // Set once per pin
+
 if (forwardSpeed > 5 && reverseSpeed <= 5) {
     gpioWrite(R_EN, 1);
     gpioWrite(L_EN, 1);
-    gpioHardwarePWM(RPWM, pwmFreq, forwardSpeed * 10000);  // 10,000 = 1% of 1M
-    gpioHardwarePWM(LPWM, pwmFreq, 0);
-} else if (reverseSpeed > 5 && forwardSpeed <= 5) {     //For Some reason moving
+    gpioPWM(RPWM, forwardSpeed);   // 0–255
+    gpioPWM(LPWM, 0);
+} else if (reverseSpeed > 5 && forwardSpeed <= 5) {
     gpioWrite(R_EN, 1);
     gpioWrite(L_EN, 1);
-    gpioHardwarePWM(RPWM, pwmFreq, 0);
-    gpioHardwarePWM(LPWM, pwmFreq, reverseSpeed * 10000);
+    gpioPWM(RPWM, 0);
+    gpioPWM(LPWM, reverseSpeed);   // 0–255
 } else {
-    gpioHardwarePWM(RPWM, pwmFreq, 0);
-    gpioHardwarePWM(LPWM, pwmFreq, 0);
+    gpioPWM(RPWM, 0);
+    gpioPWM(LPWM, 0);
     gpioWrite(R_EN, 0);
     gpioWrite(L_EN, 0);
 }
